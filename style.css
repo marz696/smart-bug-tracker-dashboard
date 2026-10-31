@@ -288,3 +288,154 @@
   font-size: 0.8125rem;
   line-height: 1.55;
 }
+
+/* ─────────────────────────────────────────────
+   NEW FEATURE STYLES
+   ───────────────────────────────────────────── */
+
+/* ----- View Mode Toggle Buttons ----- */
+.view-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  color: #64748b;        /* slate-500 */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+.view-toggle-btn:hover {
+  color: #cbd5e1;        /* slate-300 */
+  background-color: #334155; /* slate-700 */
+}
+.view-toggle-btn.active-view {
+  color: #ffffff;
+  background-color: #f97316; /* orange-500 */
+}
+.view-toggle-btn.active-view:hover {
+  background-color: #ea6000;
+}
+
+/* ----- Kanban Board Columns ----- */
+.kanban-col {
+  background-color: #0f172a; /* slate-900 */
+  border: 1px solid #334155; /* slate-700 */
+  border-radius: 0.875rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+.kanban-col-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #334155;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.status-open-header     { background-color: rgba(239, 68, 68, 0.08); }
+.status-inprogress-header { background-color: rgba(234, 179, 8, 0.08); }
+.status-resolved-header { background-color: rgba(34, 197, 94, 0.08); }
+
+.kanban-col-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.kanban-col-body {
+  padding: 12px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 72vh;
+}
+
+/* Kanban cards are slimmer — override a few card defaults */
+.kanban-card {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.kanban-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border-color: #475569;
+}
+/* Severity accent on kanban cards */
+.kanban-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 10px 0 0 10px;
+}
+.kanban-card.severity-critical::before { background-color: #ef4444; }
+.kanban-card.severity-major::before    { background-color: #f97316; }
+.kanban-card.severity-minor::before    { background-color: #38bdf8; }
+
+/* Kanban card title */
+.kanban-card .kc-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Kanban card meta */
+.kanban-card .kc-meta {
+  font-size: 0.6875rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Kanban empty column state */
+.kanban-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+  color: #475569;
+  font-size: 0.8rem;
+  text-align: center;
+  gap: 6px;
+}
+
+/* ----- AI Triage Badge animation ----- */
+#ai-triage-badge:not(.hidden) {
+  animation: fadeSlideIn 0.25s ease both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ----- Progress bar pulse when 100% ----- */
+#progress-bar.complete {
+  background: linear-gradient(90deg, #16a34a, #4ade80) !important;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+}

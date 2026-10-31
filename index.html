@@ -42,17 +42,32 @@
             <p class="text-xs text-slate-400 hidden sm:block">Issue &amp; Bug Management Dashboard</p>
           </div>
         </div>
-        <!-- Add Bug Button -->
-        <button
-          id="btn-open-modal"
-          class="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 shadow-md"
-          aria-label="Tambah bug baru"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-          </svg>
-          <span>Tambah Bug</span>
-        </button>
+        <!-- Header Actions -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <!-- Export CSV Button -->
+          <button
+            id="btn-export-csv"
+            class="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 active:bg-slate-500 text-slate-200 font-medium px-4 py-2 rounded-lg transition-colors duration-200 border border-slate-600 text-sm"
+            aria-label="Export data ke CSV"
+            title="Unduh semua data bug sebagai file CSV"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            <span>Export CSV</span>
+          </button>
+          <!-- Add Bug Button -->
+          <button
+            id="btn-open-modal"
+            class="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 shadow-md"
+            aria-label="Tambah bug baru"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>Tambah Bug</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -76,6 +91,33 @@
         <div class="stat-card bg-slate-800 rounded-xl p-4 border border-slate-700 flex flex-col gap-1">
           <span class="text-xs text-sky-400 uppercase tracking-wider font-medium">Minor</span>
           <span id="stat-minor" class="text-3xl font-bold text-sky-400">0</span>
+        </div>
+      </section>
+
+      <!-- Resolution Progress Bar -->
+      <section aria-label="Progress resolusi bug" class="bg-slate-800 rounded-xl border border-slate-700 px-5 py-4">
+        <div class="flex items-center justify-between mb-2 gap-4 flex-wrap">
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span class="text-sm font-medium text-slate-300">Resolution Progress</span>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-slate-400">
+            <span id="progress-label">0 dari 0 bug terselesaikan</span>
+            <span id="progress-pct" class="font-bold text-green-400 text-sm">0%</span>
+          </div>
+        </div>
+        <div class="w-full bg-slate-700 rounded-full h-2.5 overflow-hidden">
+          <div
+            id="progress-bar"
+            class="h-2.5 rounded-full transition-all duration-500 ease-out"
+            style="width: 0%; background: linear-gradient(90deg, #22c55e, #4ade80);"
+            role="progressbar"
+            aria-valuenow="0"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
         </div>
       </section>
 
@@ -128,9 +170,81 @@
         </button>
       </section>
 
-      <!-- Bug List -->
+      <!-- View Toggle -->
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <div class="flex items-center gap-1 bg-slate-800 border border-slate-700 rounded-lg p-1">
+          <!-- Card/List View -->
+          <button
+            id="btn-view-card"
+            class="view-toggle-btn active-view"
+            data-view="card"
+            aria-label="Tampilan kartu"
+            title="Card View"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+            </svg>
+            <span class="text-xs font-medium">Card</span>
+          </button>
+          <!-- Kanban View -->
+          <button
+            id="btn-view-kanban"
+            class="view-toggle-btn"
+            data-view="kanban"
+            aria-label="Tampilan kanban"
+            title="Kanban Board"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+            </svg>
+            <span class="text-xs font-medium">Kanban</span>
+          </button>
+        </div>
+        <p class="text-xs text-slate-500" id="view-mode-hint">Menampilkan card view</p>
+      </div>
+
+      <!-- Bug List (Card View) -->
       <section aria-label="Daftar bug" id="bug-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- Cards injected by JS -->
+      </section>
+
+      <!-- Kanban Board View -->
+      <section aria-label="Kanban board bug" id="kanban-board" class="hidden">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Open Column -->
+          <div class="kanban-col" data-column="Open">
+            <div class="kanban-col-header status-open-header">
+              <span class="kanban-col-dot bg-red-400"></span>
+              <span class="font-semibold text-sm text-red-300">Open</span>
+              <span class="tab-count ml-auto" id="kanban-count-open">0</span>
+            </div>
+            <div id="kanban-open" class="kanban-col-body space-y-3">
+              <!-- Cards injected by JS -->
+            </div>
+          </div>
+          <!-- In Progress Column -->
+          <div class="kanban-col" data-column="In Progress">
+            <div class="kanban-col-header status-inprogress-header">
+              <span class="kanban-col-dot bg-yellow-400"></span>
+              <span class="font-semibold text-sm text-yellow-300">In Progress</span>
+              <span class="tab-count ml-auto" id="kanban-count-inprogress">0</span>
+            </div>
+            <div id="kanban-inprogress" class="kanban-col-body space-y-3">
+              <!-- Cards injected by JS -->
+            </div>
+          </div>
+          <!-- Resolved Column -->
+          <div class="kanban-col" data-column="Resolved">
+            <div class="kanban-col-header status-resolved-header">
+              <span class="kanban-col-dot bg-green-400"></span>
+              <span class="font-semibold text-sm text-green-300">Resolved</span>
+              <span class="tab-count ml-auto" id="kanban-count-resolved">0</span>
+            </div>
+            <div id="kanban-resolved" class="kanban-col-body space-y-3">
+              <!-- Cards injected by JS -->
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Empty State -->
@@ -228,6 +342,13 @@
               class="form-input w-full bg-slate-900 border border-slate-600 text-slate-100 placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition resize-none"
             ></textarea>
             <p class="form-error hidden text-xs text-red-400 mt-1" id="err-desc">Deskripsi wajib diisi.</p>
+            <!-- AI Auto-Triage Suggestion Badge (hidden by default) -->
+            <div id="ai-triage-badge" class="hidden mt-2 flex items-center gap-2 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg px-3 py-2 text-xs font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span>AI Suggestion: <strong>Critical Issue Detected</strong> — Severity diubah otomatis</span>
+            </div>
           </div>
 
           <!-- Action Buttons -->
